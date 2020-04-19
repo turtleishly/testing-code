@@ -1,4 +1,3 @@
-var game = new Phaser .Game(360,640,Phaser.AUTO);
 
 var GameState = {
     init: function(){
@@ -9,10 +8,18 @@ var GameState = {
 
     },
     create :function(){
-        
 
+        this.background = this.game.add.sprite(0,0,'background');
+
+
+    },
+    preload:function(){
+        this.load.image('background','images/vortex.png')
     }
 
 };
+var game = new Phaser.Game(1000,1000,Phaser.AUTO);
 
-Game.state.start('GameState');
+
+game.state.add('GameState',GameState)
+game.state.start('GameState');
