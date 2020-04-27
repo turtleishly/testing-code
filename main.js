@@ -10,6 +10,7 @@ var GameState = {
    
 
     create :function(){
+
         this.background = this.game.add.sprite(0,0,'background');
 
 
@@ -30,7 +31,11 @@ var GameState = {
         this.foxr.animations.play('run')
         this.foxr.alpha = 0;
 
-        this.randomApple()
+        this.randomApple();
+
+       game.physics.startSystem(Phaser.Physics.ARCADE);
+       game.physics.arcade.enable([this.apple,this.foxi])
+
 
       
     },
@@ -75,8 +80,7 @@ var GameState = {
             this.foxr.alpha = 0
             this.foxi.alpha = 1
         }
-
-        
+        this.ateApple();
     },
 
     randomApple : function(){
@@ -85,11 +89,11 @@ var GameState = {
         this.apple.scale.setTo(0.5)
     },
     ateApple : function(){
-        console.log('ate')
+        game.physics.arcade.collide(this.foxi,this.apple,function(foxi,apple){
+            apple.destroy();
+            
+         })
     }
-   
-    
-
 };
 var game = new Phaser.Game(800,600,Phaser.AUTO);
 
