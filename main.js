@@ -14,6 +14,7 @@ var GameState = {
 
         this.background = this.game.add.sprite(0,0,'background');
 
+       
 
         this.foxi = this.game.add.sprite(this.game.world.centerX,this.game.world.centerY,"foxi");
         this.foxi.anchor.setTo(0.5);
@@ -31,11 +32,10 @@ var GameState = {
         this.foxi.animations.play('idle');
         this.foxr.animations.play('run')
         this.foxr.alpha = 0;
-
-        this.randomApple();
-
-        //this.game.time.events.loop(Phaser.Timer.SECOND * 60,this.randomApple,this);
-
+ 
+       this.randomApple(); 
+        
+      
        game.physics.startSystem(Phaser.Physics.ARCADE);
        game.physics.arcade.enable([this.apple,this.foxi])
 
@@ -45,6 +45,7 @@ var GameState = {
     preload:function(){
         this.load.image('background','images/vortex.png');
         this.load.image('apple','images/apple.png');
+        //this.randomApple();
         this.load.spritesheet("foxi","images/foxi.png",17,16,9,0,0);
         this.load.spritesheet("foxr","images/foxr.png",19,16,8,0,0);
 
@@ -85,26 +86,37 @@ var GameState = {
             this.foxi.alpha = 1
 
         }
-        if (idk){
-            this.randomApple();
-        } 
+       // if (idk){
+       //     this.randomApple();
+       // } 
+        
         this.ateApple();
+        
     },
 
     randomApple : function(){
         this.apple = this.game.add.sprite(this.game.world.randomX,this.game.world.randomY,"apple");
         this.apple.anchor.setTo(0.5); 
-        this.apple.scale.setTo(0.5)
+        this.apple.scale.setTo(0.5) 
         idk = false;
     },
     ateApple : function(){
+
         game.physics.arcade.collide(this.foxi,this.apple,function(foxi,apple){
-            apple.destroy();
-            idk = true; 
+            apple.destroy(); 
+            idk = true;
             
-         })
+           
+         });
+         if (idk ==true){
+   
+              this.randomApple();
+
+         }
+         
     }
 };
+
 
 var game = new Phaser.Game(800,600,Phaser.AUTO);
 
