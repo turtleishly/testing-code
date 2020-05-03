@@ -1,4 +1,5 @@
 var Foxspeed = 5;
+var idk ;
 var GameState = {
     init: function(){
         this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
@@ -33,6 +34,8 @@ var GameState = {
 
         this.randomApple();
 
+        //this.game.time.events.loop(Phaser.Timer.SECOND * 60,this.randomApple,this);
+
        game.physics.startSystem(Phaser.Physics.ARCADE);
        game.physics.arcade.enable([this.apple,this.foxi])
 
@@ -54,6 +57,7 @@ var GameState = {
             this.foxr.y = this.foxr.y - Foxspeed;
             this.foxr.alpha = 1
             this.foxi.alpha = 0
+            
 
 
         }else if (game.input.keyboard.isDown(Phaser.Keyboard.A)){
@@ -79,22 +83,29 @@ var GameState = {
             this.foxi.animations.play ('idle');
             this.foxr.alpha = 0
             this.foxi.alpha = 1
+
         }
+        if (idk){
+            this.randomApple();
+        } 
         this.ateApple();
     },
 
     randomApple : function(){
         this.apple = this.game.add.sprite(this.game.world.randomX,this.game.world.randomY,"apple");
-        this.apple.anchor.setTo(0.5);
+        this.apple.anchor.setTo(0.5); 
         this.apple.scale.setTo(0.5)
+        idk = false;
     },
     ateApple : function(){
         game.physics.arcade.collide(this.foxi,this.apple,function(foxi,apple){
             apple.destroy();
+            idk = true; 
             
          })
     }
 };
+
 var game = new Phaser.Game(800,600,Phaser.AUTO);
 
 
