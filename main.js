@@ -14,12 +14,14 @@ var GameState = {
 
         this.background = this.game.add.sprite(0,0,'background');
 
-       
+    
 
         this.foxi = this.game.add.sprite(this.game.world.centerX,this.game.world.centerY,"foxi");
         this.foxi.anchor.setTo(0.5);
         this.foxi.scale.setTo(3);
         this.foxi.inputEnabled = true;
+
+        this.foxi.customParams = {eaten : 0}
 
         this.foxr = this.game.add.sprite(this.game.world.centerX,this.game.world.centerY,"foxr");
         this.foxr.anchor.setTo(0.5);
@@ -34,10 +36,15 @@ var GameState = {
         this.foxr.alpha = 0;
  
        this.randomApple(); 
+
+       var style = {font:'20px Arial',fill: '#fff'};
+       this.game.add.text(10,20,'Eaten :' ,style);
+
+       this.appleText = this.game.add.text(80,20,'',style);
         
       
        game.physics.startSystem(Phaser.Physics.ARCADE);
-       game.physics.arcade.enable([this.apple,this.foxi])
+       
 
 
       
@@ -45,7 +52,6 @@ var GameState = {
     preload:function(){
         this.load.image('background','images/vortex.png');
         this.load.image('apple','images/apple.png');
-        //this.randomApple();
         this.load.spritesheet("foxi","images/foxi.png",17,16,9,0,0);
         this.load.spritesheet("foxr","images/foxr.png",19,16,8,0,0);
 
@@ -54,10 +60,12 @@ var GameState = {
     update:function(){
         this.foxi.x = this.foxr.x
         this.foxi.y = this.foxr.y
+       
         if(game.input.keyboard.isDown(Phaser.Keyboard.W)){
             this.foxr.y = this.foxr.y - Foxspeed;
             this.foxr.alpha = 1
             this.foxi.alpha = 0
+
             
 
 
@@ -86,12 +94,16 @@ var GameState = {
             this.foxi.alpha = 1
 
         }
-       // if (idk){
-       //     this.randomApple();
-       // } 
+        if (idk){
+            this.randomApple();
+            Foxspeed = Foxspeed + 5
+
+            this.foxi.customParams.eaten = this.foxi.customParams.eaten +1
+        } 
         
         this.ateApple();
         
+        this.appleText.text = this.foxi.customParams.eaten ;
     },
 
     randomApple : function(){
@@ -102,19 +114,17 @@ var GameState = {
     },
     ateApple : function(){
 
+        game.physics.arcade.enable([this.apple,this.foxi])
+
         game.physics.arcade.collide(this.foxi,this.apple,function(foxi,apple){
             apple.destroy(); 
             idk = true;
             
            
          });
-         if (idk ==true){
-   
-              this.randomApple();
-
-         }
          
-    }
+    },
+   
 };
 
 
