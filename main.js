@@ -34,6 +34,8 @@ var GameState = {
         this.foxi.animations.play('idle');
         this.foxr.animations.play('run')
         this.foxr.alpha = 0;
+
+
  
        this.randomApple(); 
 
@@ -102,6 +104,11 @@ var GameState = {
         } 
         
         this.ateApple();
+
+        this.foxr.body.collideWorldBounds = true;
+        this.foxi.body.collideWorldBounds = true;
+
+
         
         this.appleText.text = this.foxi.customParams.eaten ;
     },
@@ -114,7 +121,7 @@ var GameState = {
     },
     ateApple : function(){
 
-        game.physics.arcade.enable([this.apple,this.foxi])
+        game.physics.arcade.enable([this.apple,this.foxi,this.foxr])
 
         game.physics.arcade.collide(this.foxi,this.apple,function(foxi,apple){
             apple.destroy(); 
